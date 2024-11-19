@@ -1,9 +1,8 @@
-FROM dreamacro/clash:latest
+FROM dreamacro/clash-premium:latest
 
-ARG CLASH_VERSION="v1.18.0"
 
-ADD https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb /root/conf/Country.mmdb
-ADD https://github.com/haishanh/yacd/archive/gh-pages.zip  /root/conf/yacd.zip
+ADD https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb /root/files/Country.mmdb
+ADD https://github.com/haishanh/yacd/archive/gh-pages.zip  /root/files/yacd.zip
 COPY ./run.sh /bin/run
 COPY ./dl-clash-conf.sh /bin/dl-clash-conf
 COPY ./update-clash-conf.sh /bin/update-clash-conf
@@ -23,7 +22,7 @@ RUN apk add wget \
     && chmod +x /bin/run \
     && chmod +x /bin/update-clash-conf \
     && chmod +x /bin/dl-clash-conf \
-    && cd  /root/conf/ \
+    && cd  /root/files/ \
     && unzip yacd.zip \
     && mv yacd-gh-pages ui \
     && rm -rf yacd.zip

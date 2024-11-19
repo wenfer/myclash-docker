@@ -18,6 +18,5 @@ if [[ ! -z "$CRON_EXPRESSION" ]]; then
 fi
 
 # 启动代理
-ConfPath=`dirname $ConfFile`
-/clash -d $ConfPath -f $ConfFile
+/clash -d /root/files/ -f $ConfFile
 
