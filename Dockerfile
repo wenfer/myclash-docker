@@ -2,7 +2,7 @@ FROM dreamacro/clash-premium:latest
 
 
 ADD https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb /root/files/Country.mmdb
-ADD https://github.com/haishanh/yacd/archive/gh-pages.zip  /root/files/yacd.zip
+ADD https://github.com/eorendel/clash-dashboard/archive/refs/heads/main.zip  /tmp/main.zip
 COPY ./run.sh /bin/run
 COPY ./dl-clash-conf.sh /bin/dl-clash-conf
 COPY ./update-clash-conf.sh /bin/update-clash-conf
@@ -22,9 +22,8 @@ RUN apk add wget \
     && chmod +x /bin/run \
     && chmod +x /bin/update-clash-conf \
     && chmod +x /bin/dl-clash-conf \
-    && cd  /root/files/ \
-    && unzip yacd.zip \
-    && mv yacd-gh-pages ui \
-    && rm -rf yacd.zip
+    && unzip /tmp/main.zip -d /etc/clash-dashboard
+
+
 
 ENTRYPOINT ["run"]

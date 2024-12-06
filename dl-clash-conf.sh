@@ -32,8 +32,9 @@ modify_config(){
 if [[ ! -z "$EXTERNAL_BIND" && ! -z "$EXTERNAL_PORT" ]]
 then
   modify_config "external-controller" "$EXTERNAL_BIND:$EXTERNAL_PORT"
-  modify_config "external-ui" "ui"
+  modify_config "external-ui" "/etc/clash-dashboard"
 fi
+
 # 鉴权信息
 if [[ ! -z "$EXTERNAL_SECRET" ]]
 then
