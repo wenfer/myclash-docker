@@ -1,0 +1,7 @@
+robyn
+requests
+PyYAML
+psutil
+Jinja2
+APScheduler
+Nuitka

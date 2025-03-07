@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+
+    <style>
+        .content {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+    </div>
+    <div class="layui-row">
+        <blockquote class="layui-elem-quote">默认配置不懂就不改就行了</blockquote>
+    </div>
+    <div class="layui-row">
+        <div class="content">
+            <form class="layui-form" style="width:500px">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">订阅地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="config_url" required lay-verify="required" placeholder="订阅地址"
+                               value="{{config.config_url if config else ''}}"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-row">
+                    <label class="layui-form-label">更新规则</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="cron" required lay-verify="required" placeholder="cron表达式"
+                               value="{{config.cron if config else '0 2 * * * '}}"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">默认每天凌晨2点更新</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">代理端口</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="port" required lay-verify="required"
+                               value="{{config.port if config else 7890}}"
+                               placeholder="代理端口"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">socks端口</label>
+                    <div class="layui-input-block">
+                        <input type="number" name="socks_port" required lay-verify="required"
+                               value="{{config.port if config else 7890}}"
+                               placeholder="socks端口"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">UI端口</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="external_port" required lay-verify="required" placeholder="UI端口"
+                               value="{{config.external_port if config else 9090    }}"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">UI界面密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="ui_password" placeholder="请输入密码"
+                               value="{{config.ui_password if config else ''}}"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">绑定网卡</label>
+                    <div class="layui-input-block">
+                        <select name="network" lay-verify="required">
+                            <option value=""></option>
+                            {% for ip in ip_array%}
+                            <option value="{{ ip.address }}"
+                                    {% if config and config.network== ip.address %}
+                                    selected
+                                    {% endif %}
+                            >
+                                {{ip.name}}-{{ip.address}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="*">保存配置</button>
+                    </div>
+                </div>
+            </form>
+            <hr class="layui-border-red">
+            <div class="layui-row">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+<script>
+    layui.use('form', function(){
+      var form = layui.form;
+        form.on('submit(*)', function(data){
+            if(data.field.cron.split(/\s+/).length >= 6){
+                layer.msg("cron表达式错误, 请检查，此处只接受5个参数");
+                return false;
+            }
+            console.log(JSON.stringify(data.field))
+            fetch('/', {
+              method: 'post',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data.field)
+            }).then(function(response) {
+                return response.json();
+            }).then(json =>{
+                if(json.code ==0){
+                    layer.msg("保存成功");
+                    setTimeout(function(){
+                        window.location.reload();
+                    },500)
+                }else{
+                    layer.msg("保存失败");
+                }
+            })
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
