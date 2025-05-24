@@ -1,5 +1,11 @@
 clash镜像构建脚本
 
+# 2025/5/24更新
+新增了arm64的镜像，需要换成ghcr.io的仓库，dockerhub拉不到
+
+
+## 示例
+
 - 定时任务自动更新订阅
 - 集成ui界面 yacd
 - 自动重写config.yaml配置用于局域网代理
@@ -8,7 +14,7 @@ clash镜像构建脚本
 ```yaml
 services:
   myclash:
-    image: qiuyuan1992/myclash:latest
+    image: ghcr.io/qiuyuan1992/myclash:main
     container_name: myclash
     restart: unless-stopped
     ports:
