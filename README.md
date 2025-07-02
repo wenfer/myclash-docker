@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/c9777b56-6d0c-4965-aa08-0eed783812cb)clash镜像构建脚本
 
 # 2025/5/24更新
 新增了arm64的镜像，需要换成ghcr.io的仓库，dockerhub拉不到
