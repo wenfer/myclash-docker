@@ -13,7 +13,7 @@
 ```yaml
 services:
   myclash:
-    image: ghcr.io/wenfer/myclash-docker:main
+    image: ghcr.io/wenfer/myclash:latest
     container_name: myclash
     restart: unless-stopped
     ports:
